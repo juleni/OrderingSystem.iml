@@ -15,7 +15,6 @@ import sk.juleni.repository.ProductRepository;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -43,19 +42,17 @@ public class OrderController {
     @GetMapping("/orderpage/{order_id}")
     public ModelAndView order_page(@PathVariable("order_id") Long orderId, HttpSession session) {
         ModelAndView mv = new ModelAndView("orderpage");
-        Order editOrder = null;
+        Order editOrder;
 
         if(orderId != null && orderId >  Order.NEW_ID) {
             // there was sent order_id in the URL - it means retrieve order info from DB
             editOrder = orepo.findOneById(orderId);
 
             // retrieve all belonged order products
-            List<Long> productIDs = new ArrayList<Long>();
+            List<Long> productIDs = new ArrayList<>();
             Set<Product> lstBelongedProducts = editOrder.getOrderProducts();
-            Iterator<Product> itIterator = lstBelongedProducts.iterator();
-            while (itIterator.hasNext()) {
-                productIDs.add(itIterator.next().getProduct_id());
-
+            for (Product lstBelongedProduct : lstBelongedProducts) {
+                productIDs.add(lstBelongedProduct.getBaseProduct().getProduct_id());
             }
 
             mv.addObject("productIDs", productIDs);
@@ -90,11 +87,11 @@ public class OrderController {
         // after processing go to the orderpage
         ModelAndView mv = new ModelAndView("orderpage");
         User currentUser = (User) session.getAttribute("currentUser");
-        Boolean canSave = false;
+        boolean canSave = false;
 
         // do only if order number was typed (no empty spaces)
         if (order != null && !order.getOrder_no().trim().isEmpty()) {
-            if (order.getOrder_id() == Order.NEW_ID) {
+            if (order.getOrder_id().equals(Order.NEW_ID)) {
                 // there will be new order added
                 // check if the order number does not exists (unique parameter) for surrent user
                 //       - if yes, do not save and just return message
@@ -173,9 +170,8 @@ public class OrderController {
      *
      * @param mv ModelAndView - ModelAndView that will be set up parameters for
      * @param session - HttpSession - session the currentUserId is retrieved from
-     * @return ModelAndView - updated ModelAndView
      */
-    private ModelAndView setOrderProductParameters(ModelAndView mv, HttpSession session) {
+    private void setOrderProductParameters(ModelAndView mv, HttpSession session) {
         // set default order data (e.g. object_no - in the constructor)
         //mv.addObject("defaultEmptyOrder", new Order(true));
         User currentUser = (User) session.getAttribute("currentUser");
@@ -194,11 +190,10 @@ public class OrderController {
         }
         mv.addObject("orders", allUserOrders);
 
-        if (allUserOrders != null && allUserOrders.size() == 0) {
+        if (allUserOrders.isEmpty()) {
             mv.addObject("message", "Nenašli sa žiadne položky.");
         }
 
-        return mv;
     }
 }
 

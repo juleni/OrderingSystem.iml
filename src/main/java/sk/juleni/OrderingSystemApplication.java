@@ -12,8 +12,6 @@ import sk.juleni.repository.ProductRepository;
 import sk.juleni.repository.UserRepository;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * DEMO application for managing of users, products and orders
@@ -63,8 +61,11 @@ public class OrderingSystemApplication implements CommandLineRunner {
         productY3.setBaseProduct(productY3);
 
         Product productZ1 = new Product("AAA", "Produkt AAA", "Popis AAA", BigDecimal.valueOf(100));
+        productZ1.setBaseProduct(productZ1);
         Product productZ2 = new Product("BBB", "Produkt BBB", "Popis BBB", BigDecimal.valueOf(200));
+        productZ2.setBaseProduct(productZ2);
         Product productZ3 = new Product("CCC", "Produkt CCC", "Popis CCC", BigDecimal.valueOf(300));
+        productZ3.setBaseProduct(productZ3);
 
         // III. create order objects
         Order testOrderA1 = new Order("Objednavka A1", 3.00, "Popis A1");
@@ -100,7 +101,7 @@ public class OrderingSystemApplication implements CommandLineRunner {
         testOrderA1.setUserOrder(defaultUser);
         orepo.save(testOrderA1);
 
-        // add 3 'common' base products to the defaultUser
+        // add 3 'common' base products to the testUser1
         testUser1.addProduct(productZ1);
         testUser1.addProduct(productZ2);
         testUser1.addProduct(productZ3);
