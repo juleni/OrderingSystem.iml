@@ -36,7 +36,7 @@ public class ProductController {
     public ModelAndView product_page(@PathVariable("product_id") Long productId, HttpSession session) {
         ModelAndView mv = new ModelAndView("productpage");
         User currentUser = (User) session.getAttribute("currentUser");
-        Product editProduct = null;
+        Product editProduct;
 
         if (productId != null && productId > Product.NEW_ID) {
             // there was sent product_id in the URL - it means retrieve product info from DB
@@ -73,11 +73,11 @@ public class ProductController {
     {
         ModelAndView mv = new ModelAndView("productpage");
         User currentUser = (User) session.getAttribute("currentUser");
-        Boolean canSave = false;
+        boolean canSave = false;
 
         // do only if product code was typed (no empty spaces)
         if (product_code != null && !product_code.trim().isEmpty()) {
-            if (product.getProduct_id() == Product.NEW_ID) {
+            if (product.getProduct_id().equals(Product.NEW_ID)) {
                 // there will be new product added
                 // try to check in the db if product code already exists - if yes, dont save and just return message
                 List<Product> list = prepo.findByCode(product_code);

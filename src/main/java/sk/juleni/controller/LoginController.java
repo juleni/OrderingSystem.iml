@@ -64,7 +64,7 @@ public class LoginController {
                 preprocessOrders(allUsersOrders);
 
                 modelMap.put("orders", allUsersOrders);
-                if (allUsersOrders == null || (allUsersOrders != null && allUsersOrders.size() == 0)) {
+                if (allUsersOrders.isEmpty()) {
                     modelMap.put("message", "Nenašli sa žiadne položky.");
                 }
                 return "mainpage";
@@ -92,7 +92,7 @@ public class LoginController {
         preprocessOrders(allUsersOrders);
 
         mv.addObject("orders", allUsersOrders);
-        if (allUsersOrders != null && allUsersOrders.size() == 0) {
+        if (allUsersOrders.isEmpty()) {
             mv.addObject("message", "Nenašli sa žiadne položky.");
         }
         return mv;
@@ -102,9 +102,8 @@ public class LoginController {
      * Helper method for setting up transient parameters in the object
      *
      * @param lstOrders - List - list of orders
-     * @return List - updated transient parameters in the list of orders
      */
-    private List<Order> preprocessOrders(List<Order> lstOrders) {
+    private void preprocessOrders(List<Order> lstOrders) {
 
         for (Order order : lstOrders) {
             // count and set up total order price and discount
@@ -113,6 +112,5 @@ public class LoginController {
             // set up userLogin for particular order
             order.setUserLogin(order.getUserOrder().getUser_login());
         }
-        return lstOrders;
     }
 }

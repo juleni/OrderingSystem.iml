@@ -35,7 +35,7 @@ public class User extends DataObject {
 
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
-    private Date user_last_modified = new Date();
+    private final Date user_last_modified = new Date();
 
     // join column to the torder table
     @OneToMany(cascade = CascadeType.ALL,

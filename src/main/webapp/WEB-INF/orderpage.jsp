@@ -100,6 +100,7 @@
         <label for="productMultiSelect" class="col-sm-2 col-form-label">Produkty</label>
         <div class="col-sm-10">
             <select multiple class="form-control" id="productsMultiSelect" name="productIDs" value="${productIDs}" >
+                 <option value="-1">---</option>
                  <c:forEach items="${products}" var="product">
                     <option value="${product.product_id}"
                       <c:if test="${productIDs.contains(product.product_id)}">

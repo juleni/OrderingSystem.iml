@@ -56,7 +56,7 @@ public class Order extends DataObject {
 
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
-    private Date order_last_modified = new Date();;
+    private Date order_last_modified = new Date();
 
     @Transient
     private BigDecimal totalOrderPrice = new BigDecimal(0);
@@ -68,7 +68,7 @@ public class Order extends DataObject {
     private String userLogin;
 
     // used for generating of product_no
-    private static AtomicInteger ID_GENERATOR = new AtomicInteger(1000);
+    private static final AtomicInteger ID_GENERATOR = new AtomicInteger(1000);
     // generate order_number when asking for
     private String generateOrderNumber() {
         return OBJ_PREFIX + ID_GENERATOR.getAndIncrement();
@@ -89,20 +89,6 @@ public class Order extends DataObject {
             this.order_no = this.generateOrderNumber();
         }
     }
-
-    /**
-     * Constructor that allows to generate order_number - that should be unique
-     *
-     * @param generateNumber - boolean yes, if the order_number has to be generated
-     */
-//    public Order(boolean generateNumber) {
-//        if (generateNumber) {
-//            this.order_no = this.generateOrderNumber();
-//            this.order_name = "";
-//            this.order_desc = "";
-//            this.order_discount = 0.00;
-//        }
-//    }
 
     /**
      * Constructor for creating test items in the Application class

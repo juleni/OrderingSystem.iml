@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import sk.juleni.model.Product;
 import sk.juleni.model.User;
 import sk.juleni.repository.OrderRepository;
 import sk.juleni.repository.UserRepository;
@@ -36,7 +35,7 @@ public class UserController {
     public ModelAndView user_page(@PathVariable("user_id") Long userId) {
 
         ModelAndView mv = new ModelAndView("userpage");
-        User editUser = null;
+        User editUser;
 
         if (userId != null && userId > User.NEW_ID) {
             // there was sent user_id in the URL - it means retrieve user info from DB
@@ -51,7 +50,7 @@ public class UserController {
         List<User> allUsers = urepo.findAll();
         mv.addObject("users", allUsers);
 
-        if (allUsers != null && allUsers.size() == 0) {
+        if (allUsers.isEmpty()) {
             mv.addObject("message", "Nenašli sa žiadne položky.");
         }
         return mv;
@@ -70,9 +69,9 @@ public class UserController {
     public ModelAndView addUser(@RequestParam("user_login") String user_login, User user)
     {
         ModelAndView mv=new ModelAndView("userpage");
-        Boolean canSave = false;
+        boolean canSave = false;
 
-        if (user.getUser_id() == User.NEW_ID) {
+        if (user.getUser_id().equals(User.NEW_ID)) {
             // there will be new user added
             // try to check in the db if login code already exists - if yes, dont save and just return message
             List<User> list=urepo.findByLogin(user_login);
@@ -114,7 +113,7 @@ public class UserController {
     {
         ModelAndView mv=new ModelAndView("userpage");
         User currentUser = (User) session.getAttribute("currentUser");
-        if (user.getUser_id() != currentUser.getUser_id()) {
+        if (!user.getUser_id().equals(currentUser.getUser_id())) {
             try {
                 urepo.delete(user);
                 mv.addObject("message_ok","Užívateľ bol úspešne zmazaný.");

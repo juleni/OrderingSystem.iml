@@ -8,11 +8,11 @@ import java.util.List;
 
 public interface OrderRepository  extends JpaRepository<Order, Integer> {
     @Query("from Order where order_id=?1")
-    public Order findOneById(Long orderId);
+    Order findOneById(Long orderId);
 
     @Query("from Order where order_no=?1 and user_id=?2")
-    public Order findByNoAndUserId(String order_no, Long user_id);
+    Order findByNoAndUserId(String order_no, Long user_id);
 
     @Query("from Order where user_id=?1")
-    public List<Order> findByUserId(String user_id);
+    List<Order> findByUserId(String user_id);
 }
