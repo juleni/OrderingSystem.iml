@@ -20,6 +20,22 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
+<script>
+    // TODO: Move this js code to the extra .js file
+    // this function is called on submit to check numeric field product_price
+    function numberValidation() {
+        var n = document.getElementById("inputPrice").value;
+        // whether passed variable is number or not
+        if (isNaN(n)) {
+            document.getElementById("validationPriceText").style.color = "red";
+            document.getElementById("validationPriceText").innerHTML =
+              "Cena nebola zadaná správne.";
+            return false;
+        } else {
+            return true;
+        }
+    }
+</script>
 </head>
 <body>
 	<%
@@ -66,7 +82,7 @@
 
   </p>
   <p class="card-text">Pridaný bude len produkt s kódom, ktorý sa ešte v systéme nenachádza pre aktuálneho užívateľa.</p>
-    <form method="post" action="${pageContext.request.contextPath }/addProduct">
+    <form method="post" action="${pageContext.request.contextPath }/addProduct" onsubmit="return numberValidation();">
       <div class="form-group row">
         <label for="inputCode" class="col-sm-2 col-form-label">Kód</label>
         <div class="col-sm-10">
@@ -79,6 +95,7 @@
           <input type="text" name="product_name" value="${editProduct.product_name}" class="form-control" id="inputName" placeholder="" required="true">
         </div>
       </div>
+
       <div class="form-group row">
         <label for="inputPrice" class="col-sm-2 col-form-label">Cena</label>
         <div class="col-sm-10">
@@ -89,6 +106,9 @@
               </div>
               <input type="text" name="product_price" value="${editProduct.product_price}" class="form-control" id="inputPrice" placeholder="" required="true">
             </div>
+           <div>
+             <span id="validationPriceText"></span>
+           </div>
         </div>
       </div>
       <div class="form-group row">

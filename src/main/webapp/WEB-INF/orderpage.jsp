@@ -20,6 +20,22 @@
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script>
+    // TODO: Move this js code to the extra .js file
+    // this function is called on submit to check numeric field product_price
+    function numberValidation() {
+        var n = document.getElementById("inputDiscount").value;
+        // whether passed variable is number or not
+        if (isNaN(n)) {
+            document.getElementById("validationDiscountText").style.color = "red";
+            document.getElementById("validationDiscountText").innerHTML =
+              "Zľava nebola zadaná správne.";
+            return false;
+        } else {
+            return true;
+        }
+    }
+</script>
 
 </head>
 <body>
@@ -66,8 +82,8 @@
   </c:if>
 
   </p>
-  <p class="card-text">Pridaná bude len objednávka s minimálne jedným priradeným produktom.</p>
-    <form method="post" action="${pageContext.request.contextPath }/addOrder">
+  <p class="card-text">Pridaná bude len objednávka s číslom, ktoré sa ešte v systéme nenachádza pre aktuálneho užívateľa.</p>
+    <form method="post" action="${pageContext.request.contextPath }/addOrder" onsubmit="return numberValidation();">
       <div class="form-group row">
         <label for="inputNo" class="col-sm-2 col-form-label">Číslo</label>
         <div class="col-sm-10">
@@ -93,6 +109,9 @@
               <input type="text" name="order_discount" value="${editOrder.order_discount}"
                      class="form-control" id="inputDiscount" placeholder="" required="true">
             </div>
+           <div>
+             <span id="validationDiscountText"></span>
+           </div>
         </div>
       </div>
 
