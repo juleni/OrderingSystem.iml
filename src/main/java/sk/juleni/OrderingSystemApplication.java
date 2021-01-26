@@ -40,7 +40,6 @@ public class OrderingSystemApplication implements CommandLineRunner {
         // I. create user objects
         User defaultUser = new User(User.DEFAULT_LOGIN,User.DEFAULT_PASS,"test@testapp.org");
         User testUser1 = new User(User.DEFAULT_LOGIN + "1",User.DEFAULT_PASS,"email1@testapp.org");
-        User testUser2 = new User(User.DEFAULT_LOGIN + "2",User.DEFAULT_PASS,"email1@testapp.org");
 
         // retrieve default user from the list - has to be only one in the list
         //User testUser =  urepo.findByLogin(User.DEFAULT_LOGIN).get(0);
@@ -130,44 +129,5 @@ public class OrderingSystemApplication implements CommandLineRunner {
         testOrderA2.addProduct(productY3);
         // add order A2 to the default user
         defaultUser.addOrder(testOrderA2);
-
-        // save user with belonged orders and their belonged products
-//        urepo.save(defaultUser);
-/*
-        // add 3 'common' products to the testUser1
-        testUser1.addProduct(productZ1);
-        testUser1.addProduct(productZ2);
-        testUser1.addProduct(productZ3);
-        urepo.save(testUser1);
-
-        // add 3 another  products to the order A2
-        testUser1.removeProduct(productZ1);
-        testUser1.removeProduct(productZ2);
-        testUser1.removeProduct(productZ3);
-
-        productZ1.setProduct_id(null);
-        testOrderB.addProduct(productZ1);
-        productZ2.setProduct_id(null);
-        testOrderB.addProduct(productZ2);
-        productZ3.setProduct_id(null);
-        testOrderB.addProduct(productZ3);
-        // add order A3 to the test user 1
-        testUser1.addOrder(testOrderB);
-        // save belonged order and its belonged products to testUser1
-        urepo.save(testUser1);
-
-        /*
-        // add 3 another products to the order A2
-        productX1.setProduct_id(null);
-        testOrderC.addProduct(productX1);
-        productY1.setProduct_id(null);
-        testOrderC.addProduct(productY1);
-        productZ1.setProduct_id(null);
-        testOrderC.addProduct(productZ1);
-        testUser2.addOrder(testOrderC);
-        // save belonged order and its belonged products to the default user
-        urepo.save(testUser2);
-        */
-
     }
 }
